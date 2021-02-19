@@ -3,6 +3,7 @@
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
 body {
+  user-select: none;
   position: relative;
   color: white;
   height: 100vh;
