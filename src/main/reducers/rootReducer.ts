@@ -1,5 +1,8 @@
-export interface IAction {
-  type: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payload?: any;
-}
+import { combineReducers } from 'redux';
+import { rapperReducers } from '../rapper';
+import { IState, IAction } from './types';
+import user from './user/user';
+
+const rootReducer = { ...rapperReducers, user };
+
+export default combineReducers<IState, IAction>(rootReducer);
