@@ -1,4 +1,4 @@
-/* md5: 3a284641301c7bfad7f15459b0535098 */
+/* md5: 44204a121681ef52086c49872c260e01 */
 /* Rap仓库id: 277653 */
 /* Rapper版本: 1.1.6 */
 /* eslint-disable */
@@ -25,7 +25,7 @@ export const RequestTypes = {
 
   'GET/lib/search': ['GET/lib/search_REQUEST', 'GET/lib/search_SUCCESS', 'GET/lib/search_FAILURE'],
 
-  'GET/lib/borrow': ['GET/lib/borrow_REQUEST', 'GET/lib/borrow_SUCCESS', 'GET/lib/borrow_FAILURE'],
+  'POST/lib/borrow': ['POST/lib/borrow_REQUEST', 'POST/lib/borrow_SUCCESS', 'POST/lib/borrow_FAILURE'],
 
   'GET/lib/return': ['GET/lib/return_REQUEST', 'GET/lib/return_SUCCESS', 'GET/lib/return_FAILURE'],
 
@@ -62,10 +62,10 @@ interface IRapperStore {
     }
   >
 
-  'GET/lib/borrow': Array<
+  'POST/lib/borrow': Array<
     reduxLib.IInterfaceInfo & {
-      request: IModels['GET/lib/borrow']['Req']
-      response: IResponseTypes['GET/lib/borrow']
+      request: IModels['POST/lib/borrow']['Req']
+      response: IResponseTypes['POST/lib/borrow']
     }
   >
 
@@ -146,13 +146,13 @@ export const useResponse = {
    * 接口名：borrow
    * Rap 地址: http://rap2.taobao.org/repository/editor?id=277653&mod=440680&itf=1880343
    */
-  'GET/lib/borrow': function useData(
-    filter?: {request?: IModels['GET/lib/borrow']['Req']} | {(storeData: IRapperStore['GET/lib/borrow'][0]): boolean}
+  'POST/lib/borrow': function useData(
+    filter?: {request?: IModels['POST/lib/borrow']['Req']} | {(storeData: IRapperStore['POST/lib/borrow'][0]): boolean}
   ) {
-    type Req = IModels['GET/lib/borrow']['Req']
-    type Item = IRapperStore['GET/lib/borrow'][0]
-    type Res = IResponseTypes['GET/lib/borrow']
-    return reduxLib.useResponseData<TRapperStoreKey, Req, Res | undefined, Item>('GET/lib/borrow', filter)
+    type Req = IModels['POST/lib/borrow']['Req']
+    type Item = IRapperStore['POST/lib/borrow'][0]
+    type Res = IResponseTypes['POST/lib/borrow']
+    return reduxLib.useResponseData<TRapperStoreKey, Req, Res | undefined, Item>('POST/lib/borrow', filter)
   },
 
   /**
@@ -263,16 +263,16 @@ export const useAPI = {
    * 接口名：borrow
    * Rap 地址: http://rap2.taobao.org/repository/editor?id=277653&mod=440680&itf=1880343
    */
-  'GET/lib/borrow': function useData(
-    requestParams?: IModels['GET/lib/borrow']['Req'],
-    extra?: reduxLib.IUseAPIExtra<IModels['GET/lib/borrow']['Req']>
+  'POST/lib/borrow': function useData(
+    requestParams?: IModels['POST/lib/borrow']['Req'],
+    extra?: reduxLib.IUseAPIExtra<IModels['POST/lib/borrow']['Req']>
   ) {
-    type Req = IModels['GET/lib/borrow']['Req']
-    type Res = IResponseTypes['GET/lib/borrow']
-    type IFetcher = typeof fetch['GET/lib/borrow']
+    type Req = IModels['POST/lib/borrow']['Req']
+    type Res = IResponseTypes['POST/lib/borrow']
+    type IFetcher = typeof fetch['POST/lib/borrow']
     return reduxLib.useAPICommon<TRapperStoreKey, Req, Res | undefined, IFetcher>({
-      modelName: 'GET/lib/borrow',
-      fetcher: fetch['GET/lib/borrow'],
+      modelName: 'POST/lib/borrow',
+      fetcher: fetch['POST/lib/borrow'],
       requestParams,
       extra,
     })
@@ -382,12 +382,12 @@ export const useAllResponse = {
    * 接口名：borrow
    * Rap 地址: http://rap2.taobao.org/repository/editor?id=277653&mod=440680&itf=1880343
    */
-  'GET/lib/borrow': function useData() {
+  'POST/lib/borrow': function useData() {
     return useSelector((state: reduxLib.IState) => {
-      const selectedState = (state['$$rapperResponseData'] && state['$$rapperResponseData']['GET/lib/borrow']) || []
+      const selectedState = (state['$$rapperResponseData'] && state['$$rapperResponseData']['POST/lib/borrow']) || []
       type TReturnItem = reduxLib.IInterfaceInfo & {
-        request?: IModels['GET/lib/borrow']['Req']
-        response?: IResponseTypes['GET/lib/borrow']
+        request?: IModels['POST/lib/borrow']['Req']
+        response?: IResponseTypes['POST/lib/borrow']
       }
       return selectedState as Array<TReturnItem>
     })
@@ -474,10 +474,10 @@ export const clearResponseCache = {
    * 接口名：borrow
    * Rap 地址: http://rap2.taobao.org/repository/editor?id=277653&mod=440680&itf=1880343
    */
-  'GET/lib/borrow': (): void => {
+  'POST/lib/borrow': (): void => {
     reduxLib.dispatchAction({
       type: '$$RAPPER_CLEAR_STORE',
-      payload: {'GET/lib/borrow': undefined},
+      payload: {'POST/lib/borrow': undefined},
     })
   },
 
@@ -545,14 +545,14 @@ export const rapperBaseSelector = {
     type Item = IRapperStore['GET/lib/search'][0]
     return reduxLib.getResponseData<TRapperStoreKey, Req, Res | undefined, Item>(state, 'GET/lib/search', filter)
   },
-  'GET/lib/borrow': (
+  'POST/lib/borrow': (
     state: reduxLib.IState,
-    filter?: {request?: IModels['GET/lib/borrow']['Req']} | {(storeData: IRapperStore['GET/lib/borrow'][0]): boolean}
+    filter?: {request?: IModels['POST/lib/borrow']['Req']} | {(storeData: IRapperStore['POST/lib/borrow'][0]): boolean}
   ) => {
-    type Req = IModels['GET/lib/borrow']['Req']
-    type Res = IResponseTypes['GET/lib/borrow']
-    type Item = IRapperStore['GET/lib/borrow'][0]
-    return reduxLib.getResponseData<TRapperStoreKey, Req, Res | undefined, Item>(state, 'GET/lib/borrow', filter)
+    type Req = IModels['POST/lib/borrow']['Req']
+    type Res = IResponseTypes['POST/lib/borrow']
+    type Item = IRapperStore['POST/lib/borrow'][0]
+    return reduxLib.getResponseData<TRapperStoreKey, Req, Res | undefined, Item>(state, 'POST/lib/borrow', filter)
   },
   'GET/lib/return': (
     state: reduxLib.IState,
@@ -591,9 +591,9 @@ export const rapperDataSelector = {
     type Res = IResponseTypes['GET/lib/search']
     return reduxLib.getRapperDataSelector<TRapperStoreKey, Res>(state, 'GET/lib/search')
   },
-  'GET/lib/borrow': (state: reduxLib.IState) => {
-    type Res = IResponseTypes['GET/lib/borrow']
-    return reduxLib.getRapperDataSelector<TRapperStoreKey, Res>(state, 'GET/lib/borrow')
+  'POST/lib/borrow': (state: reduxLib.IState) => {
+    type Res = IResponseTypes['POST/lib/borrow']
+    return reduxLib.getRapperDataSelector<TRapperStoreKey, Res>(state, 'POST/lib/borrow')
   },
   'GET/lib/return': (state: reduxLib.IState) => {
     type Res = IResponseTypes['GET/lib/return']

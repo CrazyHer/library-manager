@@ -13,7 +13,7 @@
     "start": "node -r @babel/register ./.erb/scripts/CheckPortInUse.js && cross-env yarn start:renderer",
     "start:main": "cross-env NODE_ENV=development electron -r ./.erb/scripts/BabelRegister ./src/main.dev.ts",
     "start:renderer": "cross-env NODE_ENV=development webpack serve --config ./.erb/configs/webpack.config.renderer.dev.babel.js",
-    "rapper": "rapper --type redux --rapperPath \"src/rapper\" --apiUrl \"http://rap2api.taobao.org/repository/get?id=277653&token=tKqHuTHtL6QysaZf2HilWbG9NLJK7NrY\" --rapUrl \"http://rap2.taobao.org\""
+    "rapper": "rapper --type redux --rapperPath \"src/main/rapper\" --apiUrl \"http://rap2api.taobao.org/repository/get?id=277653&token=tKqHuTHtL6QysaZf2HilWbG9NLJK7NrY\" --rapUrl \"http://rap2.taobao.org\""
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -35,11 +35,11 @@
     "copyright": "Copyright © 2021 CrazyHer",
     "files": [
       "dist/",
-      "node_modules/",
       "index.html",
       "main.prod.js",
       "main.prod.js.map",
-      "package.json"
+      "package.json",
+      "server/"
     ],
     "afterSign": ".erb/scripts/Notarize.js",
     "mac": {

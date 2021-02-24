@@ -1,5 +1,35 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import zhCN from 'antd/lib/locale/zh_CN';
+import { ConfigProvider } from 'antd';
+import { applyMiddleware, compose, createStore } from 'redux';
+import { HashRouter as Router } from 'react-router-dom';
+import { rapperEnhancer } from './main/rapper';
 import App from './main/App';
+import rootReducer from './main/reducers/rootReducer';
 
-render(<App />, document.getElementById('root'));
+const composedEnhancer = () => {
+  if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.DEBUG_PROD === 'true'
+  ) {
+    // eslint-disable-next-line global-require
+    const { createLogger } = require('redux-logger');
+    return compose(rapperEnhancer(), applyMiddleware(createLogger()));
+  }
+  return rapperEnhancer();
+};
+
+const store = createStore(rootReducer, composedEnhancer());
+
+render(
+  <Provider store={store}>
+    <ConfigProvider locale={zhCN}>
+      <Router>
+        <App />
+      </Router>
+    </ConfigProvider>
+  </Provider>,
+  document.getElementById('root')
+);

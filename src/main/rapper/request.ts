@@ -1,4 +1,4 @@
-/* md5: 4d61d203227459d0b5ef1883700582a7 */
+/* md5: af05d3c38212667ca82a5698d9bea15c */
 /* Rap仓库id: 277653 */
 /* Rapper版本: 1.1.6 */
 /* eslint-disable */
@@ -22,9 +22,9 @@ export interface IModels {
   'POST/user/login': {
     Req: {
       /**
-       * 借阅证号
+       * 管理员账号
        */
-      userId: number
+      id: number
       /**
        * 密码
        */
@@ -32,6 +32,13 @@ export interface IModels {
     }
     Res: {
       message: string
+      data: {
+        token: string
+      }
+      /**
+       * 0代表成功,-1用户名或密码错误
+       */
+      code: number
     }
   }
 
@@ -53,6 +60,7 @@ export interface IModels {
     }
     Res: {
       message: string
+      code: number
     }
   }
 
@@ -135,17 +143,21 @@ export interface IModels {
    * 接口名：borrow
    * Rap 地址: http://rap2.taobao.org/repository/editor?id=277653&mod=440680&itf=1880343
    */
-  'GET/lib/borrow': {
+  'POST/lib/borrow': {
     Req: {
+      token: string
       /**
        * 书号
        */
       bookId: number
       /**
-       * 还书日期
+       * 借阅证号
+       */
+      userID: number
+      /**
+       * 归还日期
        */
       returnDate: string
-      token: string
     }
     Res: {
       message: string
@@ -225,7 +237,7 @@ export interface IResponseTypes {
   'POST/lib/addBook': ResSelector<IModels['POST/lib/addBook']['Res']>
   'POST/lib/newbook': ResSelector<IModels['POST/lib/newbook']['Res']>
   'GET/lib/search': ResSelector<IModels['GET/lib/search']['Res']>
-  'GET/lib/borrow': ResSelector<IModels['GET/lib/borrow']['Res']>
+  'POST/lib/borrow': ResSelector<IModels['POST/lib/borrow']['Res']>
   'GET/lib/return': ResSelector<IModels['GET/lib/return']['Res']>
   'GET/lib': ResSelector<IModels['GET/lib']['Res']>
 }
@@ -317,13 +329,13 @@ export function createFetch(fetchConfig: commonLib.RequesterOption, extraConfig?
      * @param req 请求参数
      * @param extra 请求配置项
      */
-    'GET/lib/borrow': (req?: IModels['GET/lib/borrow']['Req'], extra?: commonLib.IExtra) => {
-      return sendRapperFetch('GET/lib/borrow', {
+    'POST/lib/borrow': (req?: IModels['POST/lib/borrow']['Req'], extra?: commonLib.IExtra) => {
+      return sendRapperFetch('POST/lib/borrow', {
         url: '/lib/borrow',
-        method: 'GET',
+        method: 'POST',
         params: req,
         extra,
-      }) as Promise<IResponseTypes['GET/lib/borrow']>
+      }) as Promise<IResponseTypes['POST/lib/borrow']>
     },
 
     /**

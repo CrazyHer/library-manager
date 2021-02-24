@@ -10,8 +10,8 @@
  * Rap仓库 地址: http://rap2.taobao.org/repository/editor?id=277653
  */
 
-import { createFetch, IModels } from './request';
-import * as commonLib from 'rap/runtime/commonLib';
+import {createFetch, IModels} from './request'
+import * as commonLib from 'rap/runtime/commonLib'
 
 import {
   useResponse,
@@ -21,20 +21,20 @@ import {
   rapperActions,
   rapperBaseSelector,
   rapperDataSelector,
-} from './redux';
-import { IResponseTypes } from './request';
-import * as reduxLib from 'rap/runtime/reduxLib';
+} from './redux'
+import {IResponseTypes} from './request'
+import * as reduxLib from 'rap/runtime/reduxLib'
 
-const { defaultFetch } = commonLib;
-let fetch = createFetch({}, { fetchType: commonLib.FetchType.BASE });
+const {defaultFetch} = commonLib
+let fetch = createFetch({}, {fetchType: commonLib.FetchType.BASE})
 
-const { rapperReducers, rapperEnhancer } = reduxLib;
+const {rapperReducers, rapperEnhancer} = reduxLib
 
 export const overrideFetch = (fetchConfig: commonLib.RequesterOption) => {
-  fetch = createFetch(fetchConfig, { fetchType: commonLib.FetchType.AUTO });
-};
-export { fetch, createFetch, defaultFetch };
-export type Models = IModels;
+  fetch = createFetch(fetchConfig, {fetchType: commonLib.FetchType.AUTO})
+}
+export {fetch, createFetch, defaultFetch}
+export type Models = IModels
 
 export {
   /** 以Hooks的方式使用请求响应数据 */
@@ -49,7 +49,7 @@ export {
   rapperActions,
   rapperReducers,
   rapperEnhancer,
-};
+}
 
 /** 响应类型 */
-export type ResponseTypes = IResponseTypes;
+export type ResponseTypes = IResponseTypes

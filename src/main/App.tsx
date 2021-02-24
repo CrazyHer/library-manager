@@ -1,41 +1,47 @@
-import { ConfigProvider } from 'antd';
-import { rapperEnhancer } from 'rap/runtime/reduxLib';
-import React from 'react';
-import { Provider } from 'react-redux';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
-import { applyMiddleware, compose, createStore } from 'redux';
-import zhCN from 'antd/lib/locale/zh_CN';
-
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import {
+  Switch,
+  Route,
+  useHistory,
+  useLocation,
+  Redirect,
+} from 'react-router-dom';
+import Layout from './components/layout';
 import './App.global.css';
-import Index from './pages/index';
 import Login from './pages/login/login';
-import rootReducer from './reducers/rootReducer';
-
-const composedEnhancer = () => {
-  if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.DEBUG_PROD === 'true'
-  ) {
-    // eslint-disable-next-line global-require
-    const { createLogger } = require('redux-logger');
-    return compose(rapperEnhancer(), applyMiddleware(createLogger()));
-  }
-  return rapperEnhancer();
-};
-
-const store = createStore(rootReducer, composedEnhancer());
+import customFetch from './rapper/customFetch';
+import { RootState } from './reducers/types';
+import Search from './pages/search/search';
+import Return from './pages/return/return';
+import AddBook from './pages/addbook/addbook';
 
 export default function App() {
+  const token = useSelector((state: RootState) => state.user.token);
+  const history = useHistory();
+  const location = useLocation().pathname;
+
+  useEffect(() => {
+    customFetch(token);
+  }, [token]);
+
+  useEffect(() => {
+    // 未登录状态访问除管理员登录页面以外的页面，均跳转到登录页面进行登录
+    if (location !== '/login' && token === '') {
+      history.push('/login');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, token]);
+
   return (
-    <Provider store={store}>
-      <ConfigProvider locale={zhCN}>
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Index} />
-            <Route path="/login" component={Login} />
-          </Switch>
-        </Router>
-      </ConfigProvider>
-    </Provider>
+    <Layout>
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/search" component={Search} />
+        <Route path="/return" component={Return} />
+        <Route path="/addbook" component={AddBook} />
+        <Redirect from="/" to="/search" />
+      </Switch>
+    </Layout>
   );
 }
