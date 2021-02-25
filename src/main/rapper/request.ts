@@ -1,4 +1,4 @@
-/* md5: 7e719eed671e8efd61f3da5e8dcfb141 */
+/* md5: 2ac52a506fe7d396e3d0a36d2f362cd4 */
 /* Rap仓库id: 277653 */
 /* Rapper版本: 1.1.6 */
 /* eslint-disable */
@@ -185,6 +185,10 @@ export interface IModels {
        * 书号
        */
       bookId: number
+      /**
+       * 还书者借阅证号
+       */
+      userId: number
     }
     Res: {
       message: string

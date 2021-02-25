@@ -24,7 +24,7 @@ import { RootState } from '../../reducers/types';
 
 const Search = () => {
   const [data, setData] = useState<Models['GET/lib']['Res']['data']>();
-  const { token, userID } = useSelector((state: RootState) => state.user);
+  const { token } = useSelector((state: RootState) => state.user);
   const [reFetch, setReFetch] = useState<boolean>(false);
   const [modalVisible, showModal] = useState<boolean>(false);
   const [modalContext, setModalContext] = useState<{
@@ -43,9 +43,14 @@ const Search = () => {
   }, [reFetch]);
 
   const onSearch = async (e: any) => {
-    await fetch['GET/lib/search']({ bookId: Number(e), token }).then((res) =>
-      setData([res.data])
-    );
+    if ((e as string).trim()) {
+      const res = await fetch['GET/lib/search']({
+        bookId: Number(e),
+        token,
+      });
+      if (res.data.bookId) setData([res.data]);
+      else setData([]);
+    } else setReFetch(!reFetch);
   };
 
   const [form] = useForm();
@@ -112,12 +117,13 @@ const Search = () => {
     showModal(false);
     form.resetFields();
   };
+
   const onSubmit = async (e: any) => {
     setSubmitLoading(true);
     await fetch['POST/lib/borrow']({
       token,
       bookId: e.bookId,
-      userID: userID as number,
+      userID: Number(e.userID),
       returnDate: form.getFieldValue('returnDate'),
     }).catch((err) => {
       if (err) message.error('借阅失败!');
@@ -130,10 +136,11 @@ const Search = () => {
   return (
     <div>
       <Input.Search
-        allowClear
         onSearch={onSearch}
         placeholder="搜索书号"
         style={{ width: '200px' }}
+        min={0}
+        type="number"
       />
       <Table
         columns={tableColums}
