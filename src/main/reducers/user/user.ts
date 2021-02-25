@@ -1,8 +1,9 @@
+import { LOGOFF } from '../../components/layout_redux';
 import { UPDATE_USER } from '../../pages/login/login_redux';
 import { IAction, UserState } from '../types';
 
 const defaultState: UserState = {
-  token: localStorage.getItem('token') || '',
+  token: '',
 };
 
 export default function user(
@@ -16,6 +17,8 @@ export default function user(
         token: action.payload.token,
         userID: action.payload.userID,
       };
+    case LOGOFF:
+      return defaultState;
     default:
       return state;
   }

@@ -1,14 +1,16 @@
 import { Button, Dropdown, Layout, Menu, MenuItemProps } from 'antd';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { RootState } from '../reducers/types';
 import style from './layout.css';
+import { logoffAction } from './layout_redux';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Index = (props: any) => {
   const location = useLocation().pathname;
   const history = useHistory();
+  const dispatch = useDispatch();
   const { children } = props;
 
   const userID = useSelector((state: RootState) => state.user.userID);
@@ -17,7 +19,9 @@ const Index = (props: any) => {
     history.push(e.key.toString());
   };
 
-  const onLogoff = () => {};
+  const onLogoff = () => {
+    dispatch(logoffAction);
+  };
 
   const menu = (
     <Menu>
@@ -34,13 +38,13 @@ const Index = (props: any) => {
     <Layout>
       <Layout.Header className={style.header}>
         <div>
-          <Link to="/userinfo">
+          <Link to="/search">
             <h1>图书管理系统</h1>
           </Link>
         </div>
 
         <Dropdown overlay={menu}>
-          <div className={style['user-tag']}>
+          <div style={{ cursor: 'pointer' }} className={style['user-tag']}>
             <p>管理员：{userID}</p>
           </div>
         </Dropdown>

@@ -22,8 +22,8 @@ export default function App() {
   const location = useLocation().pathname;
 
   useEffect(() => {
-    customFetch(token);
-  }, [token]);
+    customFetch();
+  }, []);
 
   useEffect(() => {
     // 未登录状态访问除管理员登录页面以外的页面，均跳转到登录页面进行登录
