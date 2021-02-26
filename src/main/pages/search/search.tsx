@@ -17,6 +17,7 @@ import {
 import { useForm } from 'antd/lib/form/Form';
 import { ColumnsType, TablePaginationConfig } from 'antd/lib/table';
 import { ExpandableConfig } from 'antd/lib/table/interface';
+import { Moment } from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { fetch, Models } from '../../rapper';
@@ -123,8 +124,10 @@ const Search = () => {
     await fetch['POST/lib/borrow']({
       token,
       bookId: e.bookId,
-      userID: Number(e.userID),
-      returnDate: form.getFieldValue('returnDate'),
+      userId: Number(e.userId),
+      returnDate: (form.getFieldValue('returnDate') as Moment).format(
+        'YYYY年M月D日'
+      ),
     }).catch((err) => {
       if (err) message.error('借阅失败!');
     });
@@ -182,6 +185,7 @@ const Search = () => {
               allowClear={false}
               placeholder="选择还书日期"
               onChange={(value) => {
+                console.log(value);
                 form.setFieldsValue({ date: value });
               }}
             />

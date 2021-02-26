@@ -11,9 +11,10 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, Menu, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import { ChildProcess, fork } from 'child_process';
 
 export default class AppUpdater {
   constructor() {
@@ -91,18 +92,45 @@ const createWindow = async () => {
  * Add event listeners...
  */
 
-app.on('window-all-closed', () => {
-  // Respect the OSX convention of having the application in memory even
-  // after all windows have been closed
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
-
 app.whenReady().then(createWindow).catch(console.log);
 
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
+});
+
+// 服务器部分
+// 通过fork创建服务器子进程
+let server: ChildProcess | undefined;
+ipcMain.on('StartServer', (e, arg: { msg: string }) => {
+  if (!server) {
+    if (process.env.NODE_ENV === 'development') {
+      // 为子进程设置端口号环境变量
+      server = fork(require.resolve('./server/index.js'), {
+        env: { port: arg.msg },
+      });
+    } else {
+      server = fork('./server/index.js');
+    }
+
+    server.on('message', (msg) => {
+      // 将服务器子进程信息转发给渲染进程
+      e.reply('ServerMessage', msg);
+    });
+  } else {
+    server.kill();
+    server = undefined;
+    e.reply('ServerMessage', { msg: '服务器已停止' });
+    // e.reply('ServerMessage', { msg: '服务器已在运行！' });
+  }
+});
+
+app.on('window-all-closed', () => {
+  // Respect the OSX convention of having the application in memory even
+  // after all windows have been closed
+  if (process.platform !== 'darwin') {
+    server?.kill();
+    app.quit();
+  }
 });

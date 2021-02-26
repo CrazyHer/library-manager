@@ -1,4 +1,4 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -49,7 +49,7 @@ const AddBook = () => {
       await fetch['POST/lib/addBook']({
         bookId,
         token,
-        amount: e.amount,
+        amount: Number(e.amount),
       });
     } else if (type === 'new') {
       await fetch['POST/lib/newbook']({
@@ -57,9 +57,14 @@ const AddBook = () => {
         token,
         title: e.title,
         author: e.author,
-        amount: e.amount,
+        amount: Number(e.amount),
       });
     }
+    message.success('提交成功');
+    form.resetFields(['title', 'author', 'remains', 'amount']);
+    setData(undefined);
+    setType(undefined);
+    setDisabled(true);
   };
 
   return (
@@ -72,19 +77,35 @@ const AddBook = () => {
           type="number"
           min={0}
         />
-        <Form.Item label="书名" name="title">
+        <Form.Item
+          label="书名"
+          name="title"
+          rules={[{ required: true, message: '请填写书名' }]}
+        >
           <Input disabled={disabled} />
         </Form.Item>
-        <Form.Item label="作者" name="author">
+        <Form.Item
+          label="作者"
+          name="author"
+          rules={[{ required: true, message: '请填写作者' }]}
+        >
           <Input disabled={disabled} />
         </Form.Item>
-        <Form.Item label="库存量" name="remains">
-          <Input disabled={disabled} />
+        <Form.Item
+          label="库存量"
+          name="remains"
+          rules={[{ required: true, message: '请填写库存量' }]}
+        >
+          <Input type="number" disabled={disabled} />
         </Form.Item>
         {type === 'add' && (
           <>
-            <Form.Item label="采购量" name="amount">
-              <Input />
+            <Form.Item
+              label="采购量"
+              name="amount"
+              rules={[{ required: true, message: '请填写采购量' }]}
+            >
+              <Input type="number" min={0} />
             </Form.Item>
             <Button type="primary" htmlType="submit">
               新增库存

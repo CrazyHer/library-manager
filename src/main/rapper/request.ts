@@ -1,4 +1,4 @@
-/* md5: 2ac52a506fe7d396e3d0a36d2f362cd4 */
+/* md5: dca60e9bf627c221b0076b1ba8780d71 */
 /* Rap仓库id: 277653 */
 /* Rapper版本: 1.1.6 */
 /* eslint-disable */
@@ -56,7 +56,7 @@ export interface IModels {
       /**
        * 新增量
        */
-      amount: string
+      amount: number
     }
     Res: {
       message: string
@@ -163,7 +163,7 @@ export interface IModels {
       /**
        * 借阅证号
        */
-      userID: number
+      userId: number
       /**
        * 归还日期
        */

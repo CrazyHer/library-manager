@@ -3,10 +3,12 @@ import { Button, Checkbox, Form, Input, message, Radio } from 'antd';
 
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { ipcRenderer } from 'electron';
 import style from './login.css';
 import sduIcon from '../../assets/logo.png';
 import { fetch } from '../../rapper';
 import { updateUserAction } from './login_redux';
+import customFetch from '../../rapper/customFetch';
 
 interface LoginFormData {
   autoLogin: boolean;
@@ -132,10 +134,18 @@ const Login = () => {
             {serverOption === 0 ? (
               <Form
                 onFinish={(v) => {
-                  message.info(v.serverAddress);
+                  customFetch(v.serverAddress);
+                  message.success('设置成功');
+                }}
+                initialValues={{
+                  serverAddress: 'http://rap2api.taobao.org/app/mock/277653',
                 }}
               >
-                <Form.Item name="serverAddress" label="远程服务器地址">
+                <Form.Item
+                  name="serverAddress"
+                  label="远程服务器地址"
+                  rules={[{ required: true, message: '请填写服务器地址' }]}
+                >
                   <Input width={8} placeholder="http://服务器IP:端口号" />
                 </Form.Item>
                 <Button onClick={() => setSetupPage(false)}>返回</Button>
@@ -146,11 +156,24 @@ const Login = () => {
             ) : (
               <Form
                 onFinish={(v) => {
-                  message.info(v.localPort);
+                  ipcRenderer.send('StartServer', {
+                    msg: v.localPort,
+                  });
+                  customFetch(`http://localhost:${v.localPort}`);
                 }}
               >
-                <Form.Item name="localPort" label="设置本机服务器端口">
-                  <Input width={4} placeholder="服务器端口号" />
+                <Form.Item
+                  name="localPort"
+                  label="设置本机服务器端口"
+                  rules={[{ required: true, message: '请填写端口号' }]}
+                >
+                  <Input
+                    type="number"
+                    width={4}
+                    min={1025}
+                    max={65535}
+                    placeholder="服务器端口号"
+                  />
                 </Form.Item>
                 <Button onClick={() => setSetupPage(false)}>返回</Button>
                 <Button type="primary" htmlType="submit">
