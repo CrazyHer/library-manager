@@ -31,6 +31,14 @@ const AddBook = () => {
         setType('add');
         // 否则为新书入库
       } else {
+        setData({
+          bookId: Number(e),
+          title: '',
+          author: '',
+          remains: 0,
+          total: 0,
+          record: [],
+        });
         setDisabled(false);
         setType('new');
       }
@@ -57,7 +65,7 @@ const AddBook = () => {
         token,
         title: e.title,
         author: e.author,
-        amount: Number(e.amount),
+        amount: Number(e.remains),
       });
     }
     message.success('提交成功');

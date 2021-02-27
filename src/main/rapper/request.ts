@@ -1,4 +1,4 @@
-/* md5: dca60e9bf627c221b0076b1ba8780d71 */
+/* md5: ed973c97a89c929acb37dca5595c3b09 */
 /* Rap仓库id: 277653 */
 /* Rapper版本: 1.1.6 */
 /* eslint-disable */
@@ -74,7 +74,6 @@ export interface IModels {
        * 书号
        */
       bookId: number
-      token: string
       /**
        * 书名
        */
@@ -87,6 +86,7 @@ export interface IModels {
        * 库存量
        */
       amount: number
+      token: string
     }
     Res: {
       message: string

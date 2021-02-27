@@ -9,7 +9,7 @@ const loginAuth = (id, password) => {
 };
 
 const tokenAuth = (token) => {
-  if (tokenStore.getToken(token)) {
+  if (tokenStore.getId(token)) {
     return true;
   }
   return false;

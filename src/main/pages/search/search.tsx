@@ -102,16 +102,19 @@ const Search = () => {
     ),
     rowExpandable: (record) => record.remains !== record.total,
     expandIconColumnIndex: 5,
-    expandIcon: ({ expanded, onExpand, record }) =>
-      expanded ? (
-        <Button type="link" onClick={(e) => onExpand(record, e)}>
-          折叠在借记录
-        </Button>
-      ) : (
-        <Button type="link" onClick={(e) => onExpand(record, e)}>
-          查看在借记录
-        </Button>
-      ),
+    expandIcon: ({ expanded, onExpand, record }) => {
+      if (record.record && (record.record as any)[0])
+        return expanded ? (
+          <Button type="link" onClick={(e) => onExpand(record, e)}>
+            折叠在借记录
+          </Button>
+        ) : (
+          <Button type="link" onClick={(e) => onExpand(record, e)}>
+            查看在借记录
+          </Button>
+        );
+      return '';
+    },
   };
 
   const onCancle = () => {
@@ -123,7 +126,7 @@ const Search = () => {
     setSubmitLoading(true);
     await fetch['POST/lib/borrow']({
       token,
-      bookId: e.bookId,
+      bookId: modalContext?.bookId as number,
       userId: Number(e.userId),
       returnDate: (form.getFieldValue('returnDate') as Moment).format(
         'YYYY年M月D日'

@@ -38,6 +38,7 @@ const Login = () => {
           setLoading(false);
           return history.push('/');
         }
+        setLoading(false);
         return message.error('用户名或密码错误!');
       })
       .catch((err) => {

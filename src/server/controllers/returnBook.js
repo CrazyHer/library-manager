@@ -2,8 +2,8 @@ const { tokenAuth } = require('../services/auth');
 const library = require('../services/library');
 
 const returnBook = (ctx) => {
-  if (tokenAuth(ctx.request.body.token)) {
-    const { bookId, userId } = ctx.request.body;
+  if (tokenAuth(ctx.query.token)) {
+    const { bookId, userId } = ctx.query;
     library.returnBook(bookId, userId);
     ctx.body = {
       code: 0,

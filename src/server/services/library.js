@@ -1,6 +1,7 @@
 const { Compare, AVLTree } = require('../lib/avlTree');
 
 const compareFunc = (a, b) => {
+  console.log('compare:', a, b, a.bookId === b.bookId);
   if (a.bookId === b.bookId) {
     return Compare.EQUALS;
   }
@@ -21,17 +22,19 @@ const newBook = (bookId, title, author, amount) => {
 };
 
 const searchBook = (bookId) => {
-  const res = avlTree.search({ bookId });
+  const res = avlTree.search({ bookId: Number(bookId) });
+  console.log('searchBook', res, bookId);
   return res;
 };
 
 const addBook = (bookId, amount) => {
   const res = searchBook(bookId);
-  res.remains = res.remains - 1 + 1 + amount;
-  res.total = res.total - 1 + 1 + amount;
+  res.remains = Number(res.remains) + Number(amount);
+  res.total = Number(res.total) + Number(amount);
 };
 
 const borrowBook = (bookId, userId, returnDate) => {
+  console.log('borrowBook', bookId, userId, returnDate);
   const res = searchBook(bookId);
   res.remains -= 1;
   res.record.push({ userId, returnDate });
@@ -41,7 +44,7 @@ const returnBook = (bookId, userId) => {
   const res = searchBook(bookId);
   if (res.record[0]) {
     let amount = res.record.length;
-    res.record = res.record.filter((v) => v.userId !== userId);
+    res.record = res.record.filter((v) => Number(v.userId) !== Number(userId));
     amount -= res.record.length;
     res.remains += amount;
   }

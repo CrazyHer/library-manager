@@ -2,7 +2,7 @@ const { tokenAuth } = require('../services/auth');
 const library = require('../services/library');
 
 const getList = (ctx) => {
-  if (tokenAuth(ctx.request.body.token)) {
+  if (tokenAuth(ctx.query.token)) {
     ctx.body = {
       code: 0,
       message: 'success',

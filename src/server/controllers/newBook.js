@@ -1,4 +1,3 @@
-const { time } = require('console');
 const { tokenAuth } = require('../services/auth');
 const library = require('../services/library');
 

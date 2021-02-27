@@ -3,7 +3,7 @@ const library = require('../services/library');
 
 const addBook = (ctx) => {
   if (tokenAuth(ctx.request.body.token)) {
-    library.addBook(ctx.body.bookId);
+    library.addBook(ctx.request.body.bookId);
     ctx.body = {
       code: 0,
       message: 'success',
