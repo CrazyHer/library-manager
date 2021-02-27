@@ -111,7 +111,10 @@ ipcMain.on('StartServer', (e, arg: { msg: string }) => {
         env: { port: arg.msg },
       });
     } else {
-      server = fork('./server/index.js');
+      server = fork('./server/index.js', {
+        env: { port: arg.msg },
+        cwd: path.join(__dirname),
+      });
     }
 
     server.on('message', (msg) => {
