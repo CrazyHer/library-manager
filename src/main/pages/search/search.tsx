@@ -188,7 +188,6 @@ const Search = () => {
               allowClear={false}
               placeholder="选择还书日期"
               onChange={(value) => {
-                console.log(value);
                 form.setFieldsValue({ date: value });
               }}
             />
