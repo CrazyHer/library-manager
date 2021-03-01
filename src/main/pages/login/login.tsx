@@ -72,7 +72,7 @@ const Login = () => {
         return message.error('用户名或密码错误!');
       })
       .catch((err) => {
-        message.error('登陆失败!');
+        message.error('登陆失败!请检查服务器连接');
         setLoading(false);
         return new Error(err);
       });
