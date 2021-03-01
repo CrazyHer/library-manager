@@ -49,7 +49,7 @@ const returnBook = (bookId, userId) => {
 
 const getBookList = () => {
   const res = [];
-  // 使用前序遍历从小到大输出顺序结果
+  // 使用中序遍历从小到大输出顺序结果
   avlTree.inOrderTraverse((v) => {
     res.push(v);
   });
