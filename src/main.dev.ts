@@ -111,18 +111,22 @@ ipcMain.on('StartServer', (e, arg: { msg: string }) => {
         env: { port: arg.msg },
       });
     } else {
-      server = fork('./server/index.js', {
-        env: { port: arg.msg },
-        cwd: path.join(__dirname),
-      });
+      // 生产环境下，后端服务器代码打包至resource目录
+      server = fork(
+        path.join(process.resourcesPath, 'src', 'server', 'index.js'),
+        [],
+        {
+          env: { port: arg.msg },
+        }
+      );
     }
 
-    server.on('message', (msg) => {
+    server?.on('message', (msg) => {
       // 将服务器子进程信息转发给渲染进程
       e.reply('ServerMessage', msg);
     });
   } else {
-    server.kill();
+    server?.kill();
     server = undefined;
     e.reply('ServerMessage', { msg: '服务器已停止' });
     // e.reply('ServerMessage', { msg: '服务器已在运行！' });

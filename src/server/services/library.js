@@ -49,7 +49,8 @@ const returnBook = (bookId, userId) => {
 
 const getBookList = () => {
   const res = [];
-  avlTree.preOrderTraverse((v) => {
+  // 使用前序遍历从小到大输出顺序结果
+  avlTree.inOrderTraverse((v) => {
     res.push(v);
   });
   return res;

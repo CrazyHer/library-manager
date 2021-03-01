@@ -38,8 +38,7 @@
       "index.html",
       "main.prod.js",
       "main.prod.js.map",
-      "package.json",
-      "server/"
+      "package.json"
     ],
     "afterSign": ".erb/scripts/Notarize.js",
     "mac": {
@@ -87,7 +86,8 @@
       "output": "release"
     },
     "extraResources": [
-      "./assets/**"
+      "./assets/**",
+      "./src/server/**/**"
     ],
     "publish": {
       "provider": "github",
