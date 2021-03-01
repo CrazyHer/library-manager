@@ -1,9 +1,9 @@
-import { Button, Dropdown, Layout, Menu, MenuItemProps } from 'antd';
 import React from 'react';
+import { Button, Dropdown, Layout, Menu, MenuItemProps } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { RootState } from '../reducers/types';
-import style from './layout.css';
+import styles from './layout.css';
 import { logoffAction } from './layout_redux';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,7 +36,7 @@ const Index = (props: any) => {
   if (location === '/login') return children;
   return (
     <Layout>
-      <Layout.Header className={style.header}>
+      <Layout.Header className={styles.header}>
         <div>
           <Link to="/search">
             <h1>图书管理系统</h1>
@@ -44,7 +44,7 @@ const Index = (props: any) => {
         </div>
 
         <Dropdown overlay={menu}>
-          <div style={{ cursor: 'pointer' }} className={style['user-tag']}>
+          <div style={{ cursor: 'pointer' }} className={styles['user-tag']}>
             <p>管理员：{userID}</p>
           </div>
         </Dropdown>
@@ -65,7 +65,7 @@ const Index = (props: any) => {
           </Menu>
         </Layout.Sider>
         <Layout style={{ backgroundColor: 'white' }}>
-          <Layout.Content className={style.content}>{children}</Layout.Content>
+          <Layout.Content className={styles.content}>{children}</Layout.Content>
         </Layout>
       </Layout>
     </Layout>

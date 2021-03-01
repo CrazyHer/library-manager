@@ -2,7 +2,6 @@ import { Button, Descriptions, Form, Input, List, message, Modal } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { measureMemory } from 'vm';
 
 import { fetch, Models } from '../../rapper';
 import { RootState } from '../../reducers/types';

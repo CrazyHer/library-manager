@@ -4,7 +4,7 @@ import { Button, Checkbox, Form, Input, message, Radio } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ipcRenderer } from 'electron';
-import style from './login.css';
+import styles from './Login.css';
 import sduIcon from '../../assets/logo.png';
 import { fetch } from '../../rapper';
 import { updateUserAction } from './login_redux';
@@ -64,14 +64,14 @@ const Login = () => {
   };
 
   return (
-    <div className={style['login-body']}>
-      <div className={style['login-logo']}>
+    <div className={styles['login-body']}>
+      <div className={styles['login-logo']}>
         <img src={sduIcon} alt="logo" />
         <span />
         <h1>图书管理系统</h1>
       </div>
       {!isSetupPage ? (
-        <div className={style['login-form']}>
+        <div className={styles['login-form']}>
           <h3>管理员登录</h3>
 
           <Form onFinish={onFinish} initialValues={getInitialValues()}>
@@ -102,7 +102,7 @@ const Login = () => {
             </Form.Item>
             <Form.Item>
               <Button
-                className={style['login-btn']}
+                className={styles['login-btn']}
                 type="primary"
                 htmlType="submit"
                 loading={loading}
@@ -112,7 +112,7 @@ const Login = () => {
               <br />
               <Button
                 type="link"
-                className={style['register-link']}
+                className={styles['register-link']}
                 onClick={() => setSetupPage(true)}
               >
                 服务器设置
@@ -121,7 +121,7 @@ const Login = () => {
           </Form>
         </div>
       ) : (
-        <div className={style['login-form']}>
+        <div className={styles['login-form']}>
           <h3>服务器设置</h3>
           <div>
             <Radio.Group
