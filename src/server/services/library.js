@@ -96,7 +96,7 @@ process.on('message', async (e) => {
   if (e.msg === 'exit') {
     await fs.writeFileSync(
       path.join(__dirname, '../../bookData.json'),
-      JSON.stringify(getBookList())
+      JSON.stringify(getBookList(), null, 2)
     );
     process.exit(0);
   }
