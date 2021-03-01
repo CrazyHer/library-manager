@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Form, Input, message, Radio } from 'antd';
 
 import { useDispatch } from 'react-redux';
@@ -16,6 +16,11 @@ interface LoginFormData {
   userID: string;
 }
 
+interface ServerConfig {
+  isLocal: boolean;
+  data: string;
+}
+
 const Login = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -24,6 +29,31 @@ const Login = () => {
 
   const dipatch = useDispatch();
   const history = useHistory();
+
+  // 如果本地存储有服务器设置信息，则加载它。否则要求用户设置服务器信息
+  useEffect(() => {
+    const serverConfig = localStorage.getItem('serverConfig');
+
+    if (serverConfig) {
+      // 服务器设置信息存在
+      const sc = JSON.parse(serverConfig) as ServerConfig;
+      if (sc.isLocal) {
+        // 启动本地服务器
+        ipcRenderer.send('StartServer', {
+          msg: sc.data,
+        });
+        customFetch(`http://localhost:${sc.data}`);
+      } else {
+        // 设置远程服务器
+        customFetch(sc.data);
+      }
+    } else {
+      message.warn('请先设置服务器信息');
+      // 服务器设置信息不存在
+      // 转到服务器设置界面
+      setSetupPage(true);
+    }
+  }, []);
 
   const onFinish = async (e: LoginFormData) => {
     setLoading(true);
@@ -135,11 +165,15 @@ const Login = () => {
             {serverOption === 0 ? (
               <Form
                 onFinish={(v) => {
+                  localStorage.setItem(
+                    'serverConfig',
+                    JSON.stringify({
+                      isLocal: false,
+                      data: v.serverAddress,
+                    } as ServerConfig)
+                  );
                   customFetch(v.serverAddress);
-                  message.success('设置成功');
-                }}
-                initialValues={{
-                  serverAddress: 'http://rap2api.taobao.org/app/mock/277653',
+                  message.success('设置保存成功');
                 }}
               >
                 <Form.Item
@@ -157,6 +191,14 @@ const Login = () => {
             ) : (
               <Form
                 onFinish={(v) => {
+                  // 端口设置保存至本地
+                  localStorage.setItem(
+                    'serverConfig',
+                    JSON.stringify({
+                      isLocal: true,
+                      data: v.localPort,
+                    } as ServerConfig)
+                  );
                   ipcRenderer.send('StartServer', {
                     msg: v.localPort,
                   });

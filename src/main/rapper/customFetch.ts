@@ -1,8 +1,6 @@
 import { overrideFetch } from './index';
 
-export default function customFetch(
-  prefix = 'http://rap2api.taobao.org/app/mock/277653'
-) {
+export default function customFetch(prefix = '') {
   overrideFetch({
     /** 'prefix' 前缀，统一设置 url 前缀，默认是 '' */
     prefix,

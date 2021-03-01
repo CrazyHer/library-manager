@@ -126,7 +126,7 @@ ipcMain.on('StartServer', (e, arg: { msg: string }) => {
       e.reply('ServerMessage', msg);
     });
   } else {
-    server?.kill();
+    server?.send({ msg: 'exit' });
     server = undefined;
     e.reply('ServerMessage', { msg: '服务器已停止' });
     // e.reply('ServerMessage', { msg: '服务器已在运行！' });
