@@ -8,8 +8,10 @@
  * When running `yarn build` or `yarn build-main`, this file is compiled to
  * `./src/main.prod.js` using webpack. This gives us some performance wins.
  */
+
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+
 import path from 'path';
 import { app, BrowserWindow, ipcMain, Menu, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
@@ -59,7 +61,7 @@ const createWindow = async () => {
   });
 
   // 加载main中html文件
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
