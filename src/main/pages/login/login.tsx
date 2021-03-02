@@ -174,6 +174,7 @@ const Login = () => {
                   );
                   customFetch(v.serverAddress);
                   message.success('设置保存成功');
+                  setSetupPage(false);
                 }}
               >
                 <Form.Item
@@ -203,6 +204,7 @@ const Login = () => {
                     msg: v.localPort,
                   });
                   customFetch(`http://localhost:${v.localPort}`);
+                  setSetupPage(false);
                 }}
               >
                 <Form.Item
