@@ -22,9 +22,9 @@ import { Moment } from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import fs from 'fs';
-import path from 'path';
 import { fetch, Models } from '../../rapper';
 import { RootState } from '../../reducers/types';
+import styles from './Search.css';
 
 const Search = () => {
   const [data, setData] = useState<Models['GET/lib']['Res']['data']>();
@@ -40,12 +40,13 @@ const Search = () => {
     if (token) {
       fetch['GET/lib']({ token })
         .then((res) => setData(res.data))
-        .catch((err) => {
-          throw new Error(err);
+        .catch(() => {
+          message.error('QAQ请求失败了！');
         });
     }
   }, [reFetch]);
 
+  // 按书号搜索
   const onSearch = async (e: any) => {
     if ((e as string).trim()) {
       const res = await fetch['GET/lib/search']({
@@ -120,11 +121,13 @@ const Search = () => {
     },
   };
 
+  // 取消提交借阅框
   const onCancle = () => {
     showModal(false);
     form.resetFields();
   };
 
+  // 提交借阅操作
   const onSubmit = async (e: any) => {
     setSubmitLoading(true);
     await fetch['POST/lib/borrow']({
@@ -143,6 +146,7 @@ const Search = () => {
     form.resetFields();
   };
 
+  // 导出图书列表操作
   const onExport = async () => {
     const res = await remote.dialog.showSaveDialog({
       title: '选择保存目录',
@@ -158,7 +162,7 @@ const Search = () => {
 
   return (
     <div>
-      <div>
+      <div className={styles.searchBar}>
         <Input.Search
           onSearch={onSearch}
           placeholder="搜索书号"
@@ -166,7 +170,9 @@ const Search = () => {
           min={0}
           type="number"
         />
-        <Button onClick={() => onExport()}>导出列表</Button>
+        <Button type="primary" onClick={() => onExport()}>
+          导出列表
+        </Button>
       </div>
 
       <Table
@@ -181,6 +187,7 @@ const Search = () => {
         visible={modalVisible}
         footer={null}
         onCancel={onCancle}
+        bodyStyle={{ height: '180px' }}
       >
         <Form form={form} onFinish={onSubmit}>
           <Form.Item
@@ -214,12 +221,17 @@ const Search = () => {
             />
           </Form.Item>
 
-          <Form.Item>
+          <Form.Item className={styles.footer}>
             <div>
-              <Button loading={submitLoading} type="primary" htmlType="submit">
+              <Button
+                className={styles.btn}
+                loading={submitLoading}
+                type="primary"
+                htmlType="submit"
+              >
                 提交
               </Button>
-              <Button type="default" onClick={onCancle}>
+              <Button className={styles.btn} type="default" onClick={onCancle}>
                 取消
               </Button>
             </div>

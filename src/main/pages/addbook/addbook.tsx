@@ -1,4 +1,4 @@
-import { Button, Form, Input, message } from 'antd';
+import { Alert, Button, Form, Input, message } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -51,6 +51,7 @@ const AddBook = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (e: any) => {
     const bookId = data?.bookId as number;
     if (type === 'add') {
@@ -77,14 +78,26 @@ const AddBook = () => {
 
   return (
     <div>
-      <Form form={form} onFinish={onSubmit}>
-        <Input.Search
-          onSearch={onSearch}
-          placeholder="输入书号"
-          style={{ width: '200px' }}
-          type="number"
-          min={0}
-        />
+      <Input.Search
+        onSearch={onSearch}
+        placeholder="输入书号"
+        style={{ width: '200px', marginBottom: '10px' }}
+        type="number"
+        min={0}
+      />
+      <Alert
+        message="请先输入书号进行搜索，若该书存在，则输入新采购量；否则填写新书的相关信息提交入库"
+        type="info"
+        closable
+        showIcon
+        style={{ marginBottom: '10px' }}
+      />
+      <Form
+        form={form}
+        onFinish={onSubmit}
+        labelCol={{ xs: { span: 24 }, sm: { span: 2 } }}
+        wrapperCol={{ xs: { span: 24 }, sm: { span: 16 } }}
+      >
         <Form.Item
           label="书名"
           name="title"
@@ -115,15 +128,33 @@ const AddBook = () => {
             >
               <Input type="number" min={0} />
             </Form.Item>
-            <Button type="primary" htmlType="submit">
-              新增库存
-            </Button>
+            <Form.Item
+              wrapperCol={{
+                sm: {
+                  span: 16,
+                  offset: 2,
+                },
+              }}
+            >
+              <Button type="primary" htmlType="submit">
+                新增库存
+              </Button>
+            </Form.Item>
           </>
         )}
         {type === 'new' && (
-          <Button type="primary" htmlType="submit">
-            采编入库
-          </Button>
+          <Form.Item
+            wrapperCol={{
+              sm: {
+                span: 16,
+                offset: 2,
+              },
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              采编入库
+            </Button>
+          </Form.Item>
         )}
       </Form>
     </div>

@@ -1,10 +1,20 @@
-import { Button, Descriptions, Form, Input, List, message, Modal } from 'antd';
+import {
+  Alert,
+  Button,
+  Descriptions,
+  Form,
+  Input,
+  List,
+  message,
+  Modal,
+} from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { fetch, Models } from '../../rapper';
 import { RootState } from '../../reducers/types';
+import styles from './Return.css';
 
 const Return = () => {
   const { token } = useSelector((state: RootState) => state.user);
@@ -38,23 +48,24 @@ const Return = () => {
   };
   return (
     <div>
-      <Input.Search
-        onSearch={onSearch}
-        placeholder="输入书号"
-        style={{ width: '200px' }}
-        type="number"
-        min={0}
-      />
+      <Alert message="请输入要归还的图书书号" type="info" showIcon closable />
+      <div className={styles.searchBar}>
+        <Input.Search
+          onSearch={onSearch}
+          placeholder="请输入书号搜索"
+          style={{ width: '200px' }}
+          type="number"
+          min={0}
+        />
+        {data?.author && (
+          <Button type="primary" onClick={() => showModal(true)}>
+            归还
+          </Button>
+        )}
+      </div>
       {data?.bookId && (
         <div>
-          <Descriptions
-            column={2}
-            extra={
-              <Button type="primary" onClick={() => showModal(true)}>
-                归还
-              </Button>
-            }
-          >
+          <Descriptions column={3}>
             <Descriptions.Item label="书名">{data.title}</Descriptions.Item>
             <Descriptions.Item label="作者">{data.author}</Descriptions.Item>
             <Descriptions.Item label="馆内现存">
@@ -85,6 +96,7 @@ const Return = () => {
         visible={modalVisible}
         footer={null}
         onCancel={onCancle}
+        bodyStyle={{ height: '130px' }}
       >
         <Form form={form} onFinish={onSubmit}>
           <Form.Item
@@ -102,12 +114,12 @@ const Return = () => {
           >
             <Input />
           </Form.Item>
-          <Form.Item>
+          <Form.Item className={styles.footer}>
             <div>
-              <Button type="primary" htmlType="submit">
+              <Button className={styles.btn} type="primary" htmlType="submit">
                 确认归还
               </Button>
-              <Button type="default" onClick={onCancle}>
+              <Button className={styles.btn} type="default" onClick={onCancle}>
                 取消
               </Button>
             </div>

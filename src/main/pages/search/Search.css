@@ -1,0 +1,12 @@
+.searchBar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.btn {
+  margin: 5px;
+}
+.footer {
+  margin-top: 0px;
+  float: right;
+}

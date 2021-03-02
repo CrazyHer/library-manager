@@ -126,11 +126,13 @@ ipcMain.on('StartServer', (e, arg: { msg: string }) => {
       // 将服务器子进程信息转发给渲染进程
       e.reply('ServerMessage', msg);
     });
-  } else {
+  } else if (process.env.NODE_ENV === 'development') {
+    // 服务器已在运行时，开发模式下可重启，生产模式提示已在运行
     server?.send({ msg: 'exit' });
     server = undefined;
     e.reply('ServerMessage', { msg: '服务器已停止' });
-    // e.reply('ServerMessage', { msg: '服务器已在运行！' });
+  } else {
+    e.reply('ServerMessage', { msg: '服务器已在运行！' });
   }
 });
 

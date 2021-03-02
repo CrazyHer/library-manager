@@ -3,13 +3,14 @@ const cors = require('koa2-cors');
 const koabody = require('koa-body');
 const route = require('./controllers/router');
 
-const app = new Koa();
-
-app.use(cors());
-app.use(koabody());
-
-app.use(route.routes()).use(route.allowedMethods());
 try {
+  const app = new Koa();
+
+  app.use(cors());
+  app.use(koabody());
+
+  app.use(route.routes()).use(route.allowedMethods());
+
   app.listen(process.env.port);
 } catch (error) {
   process.send({ msg: 'QAQ! 服务器出错了' });
