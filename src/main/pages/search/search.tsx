@@ -17,9 +17,12 @@ import {
 import { useForm } from 'antd/lib/form/Form';
 import { ColumnsType, TablePaginationConfig } from 'antd/lib/table';
 import { ExpandableConfig } from 'antd/lib/table/interface';
+import { remote } from 'electron';
 import { Moment } from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import fs from 'fs';
+import path from 'path';
 import { fetch, Models } from '../../rapper';
 import { RootState } from '../../reducers/types';
 
@@ -139,15 +142,33 @@ const Search = () => {
     showModal(false);
     form.resetFields();
   };
+
+  const onExport = async () => {
+    const res = await remote.dialog.showSaveDialog({
+      title: '选择保存目录',
+      properties: ['createDirectory'],
+      filters: [{ name: 'JSON文件', extensions: ['json'] }],
+    });
+    if (!res.canceled) {
+      fs.writeFile(res.filePath as string, JSON.stringify(data, null, 2), () =>
+        message.success('导出成功')
+      );
+    }
+  };
+
   return (
     <div>
-      <Input.Search
-        onSearch={onSearch}
-        placeholder="搜索书号"
-        style={{ width: '200px' }}
-        min={0}
-        type="number"
-      />
+      <div>
+        <Input.Search
+          onSearch={onSearch}
+          placeholder="搜索书号"
+          style={{ width: '200px' }}
+          min={0}
+          type="number"
+        />
+        <Button onClick={() => onExport()}>导出列表</Button>
+      </div>
+
       <Table
         columns={tableColums}
         dataSource={data?.map((v) => ({ ...v, key: v.bookId }))}
