@@ -12,3 +12,20 @@
 >    <br/> \*归还：注销对借阅者的登记，改变该书的现存量。
 
 使用 Electron + React 编写桌面端应用程序
+
+包含后端服务器，在客户端 app 启动后，在登录界面点击 服务器设置
+
+可选择连接远程服务器或本机通过 fork 启动
+
+## 安装
+
+`yarn`
+
+## 启动（开发环境）
+
+`yarn start`
+
+## 打包（生产环境）
+
+`yarn build`
+`yarn electron-builder build --publish never`
