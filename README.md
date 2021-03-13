@@ -28,4 +28,5 @@
 ## 打包（生产环境）
 
 `yarn build`
+
 `yarn electron-builder build --publish never`
